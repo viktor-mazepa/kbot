@@ -45,6 +45,18 @@ var kbotCmd = &cobra.Command{
 			return err
 		})
 
+		kbot.Handle(telebot.OnVoice, func(ctx telebot.Context) error {
+			answerStr := "I don' have ears, so I can't hear you :)"
+			err = ctx.Send(answerStr)
+			return err
+		})
+
+		kbot.Handle(telebot.OnPhoto, func(ctx telebot.Context) error {
+			answerStr := "Nice picture... or not"
+			err = ctx.Send(answerStr)
+			return err
+		})
+
 		kbot.Start()
 	},
 }
