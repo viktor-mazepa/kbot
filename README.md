@@ -1,7 +1,7 @@
 # <a href="https://t.me/viktormazepa_bot">Telegram kBot</a>
 ## Link - <a href="https://t.me/viktormazepa_bot">https://t.me/viktormazepa_bot</a>
 ## How to install and run
-Install go on your computer https://go.dev/doc/install 
+Install Go on your computer https://go.dev/doc/install 
 
 Clone git repository:
 ```
