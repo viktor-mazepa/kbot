@@ -7,6 +7,7 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"strings"
 	"time"
 
 	"github.com/spf13/cobra"
@@ -39,15 +40,26 @@ var kbotCmd = &cobra.Command{
 		kbot.Handle(telebot.OnText, func(ctx telebot.Context) error {
 			log.Println(ctx.Message().Payload, ctx.Text())
 			payload := ctx.Message().Payload
-			switch payload {
-			case "hello":
-				err = ctx.Send(fmt.Sprintf("Hello I'm Kbot %s", appVersion))
-			}
+			answerStr := handlePayload(payload)
+			err = ctx.Send(answerStr)
 			return err
 		})
 
 		kbot.Start()
 	},
+}
+
+func handlePayload(payload string) string {
+	switch strings.ToLower(payload) {
+	case "hello":
+		return fmt.Sprintf("Hello I'm Kbot %s", appVersion)
+	case "version":
+		return fmt.Sprintf("Current kBot version %s", appVersion)
+	case "how are you?":
+		return "Thank you, I'm fine."
+	default:
+		return "Unknown request"
+	}
 }
 
 func init() {
