@@ -24,7 +24,7 @@ Run application:
 ./kbot start
 ```
 
-Telegram kBot can return to Telegram user some ansers.
+Telegram kBot can return to Telegram user some answers.
 
 For example if you send ```/start hello``` , bot will send hello message with version ```Hello I'm Kbot v1.0.3```
 
