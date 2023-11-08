@@ -1,40 +1,55 @@
 /*
-Copyright © 2023 NAME HERE <EMAIL ADDRESS>
-
+Copyright © 2023 VIKTOR MAZEPA <viktor.mazepa@gmail.com>
 */
 package cmd
 
 import (
 	"fmt"
+	"log"
+	"os"
+	"time"
 
 	"github.com/spf13/cobra"
+	telebot "gopkg.in/telebot.v3"
 )
 
-// kbotCmd represents the kbot command
-var kbotCmd = &cobra.Command{
-	Use:   "kbot",
-	Short: "A brief description of your command",
-	Long: `A longer description that spans multiple lines and likely contains examples
-and usage of using your command. For example:
+var (
+	TeleToken = os.Getenv("TELE_TOKEN")
+)
 
-Cobra is a CLI library for Go that empowers applications.
-This application is a tool to generate the needed files
-to quickly create a Cobra application.`,
+var kbotCmd = &cobra.Command{
+	Use:     "kbot",
+	Aliases: []string{"start"},
+	Short:   "Start telegram kBot application",
+	Long: `A simple Telegram bot that can handle text messages.
+	You can write something to https://t.me/viktormazepa_bot and sometimes it answer:)`,
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("kbot called")
+		fmt.Printf("kbot %s started\n", appVersion)
+
+		kbot, err := telebot.NewBot(telebot.Settings{
+			URL:    "",
+			Token:  TeleToken,
+			Poller: &telebot.LongPoller{Timeout: 10 * time.Second},
+		})
+
+		if err != nil {
+			log.Fatalf("please check TELE_TOKEN env variable, %s", err)
+		}
+
+		kbot.Handle(telebot.OnText, func(ctx telebot.Context) error {
+			log.Println(ctx.Message().Payload, ctx.Text())
+			payload := ctx.Message().Payload
+			switch payload {
+			case "hello":
+				err = ctx.Send(fmt.Sprintf("Hello I'm Kbot %s", appVersion))
+			}
+			return err
+		})
+
+		kbot.Start()
 	},
 }
 
 func init() {
 	rootCmd.AddCommand(kbotCmd)
-
-	// Here you will define your flags and configuration settings.
-
-	// Cobra supports Persistent Flags which will work for this command
-	// and all subcommands, e.g.:
-	// kbotCmd.PersistentFlags().String("foo", "", "A help for foo")
-
-	// Cobra supports local flags which will only run when this command
-	// is called directly, e.g.:
-	// kbotCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
 }
