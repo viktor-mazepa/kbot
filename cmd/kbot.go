@@ -57,6 +57,9 @@ func handlePayload(payload string) string {
 		return fmt.Sprintf("Current kBot version %s", appVersion)
 	case "how are you?":
 		return "Thank you, I'm fine."
+	case "time":
+		dt := time.Now()
+		return dt.Format("02-01-2006 15:04:05")
 	default:
 		return "Unknown request"
 	}
