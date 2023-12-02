@@ -5,16 +5,16 @@
 replicaCount: 1
 
 image:
-  repository:  "europe-central2-docker.pkg.dev/devops2023-405122/kbot-repo"
+  repository: "europe-central2-docker.pkg.dev/devops2023-405122/kbot-repo"
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
   tag: "v1.0.5-2ed3f18"
   arch: amd64
 
 secret:
-  name: "kBot"
-  tokenKey: "token"
-  tokenName: "TELE_TOKEN"
+  name: "kbot"
+  env: "TELE_TOKEN"
+  key: "token"
 
 securityContext:
   privileged: true
