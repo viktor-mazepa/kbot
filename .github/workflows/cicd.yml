@@ -33,6 +33,9 @@ jobs:
         run: make image push
 
       - name: Clean
+        env:
+          APP: "kbot"
+          REGISTRY: ghcr.io/${{ github.actor }}
         run: make clean
 
 
