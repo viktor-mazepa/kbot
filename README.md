@@ -6,8 +6,8 @@
 * CI :
   + Action CheckOut
   + Run Tests
-  + Login to Google Artifactory Repository 
-  + Build and Push docker image to Google Artifactory Repository
+  + Login to ghcr.io 
+  + Build and Push docker image to ghcr.io
   + Clean
 * CD:
   + Save tag and revision to $GITHUB_ENV
@@ -18,7 +18,7 @@
 ![img.png](img/img.png)
 
 ### Example of ArgoCD deployment 
-![img_1.png](img/img_1.png)
+![img.png](img/img_1.png)
 
 ## How to install and run latest release via HELM
 ```
