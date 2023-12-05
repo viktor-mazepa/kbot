@@ -8,8 +8,7 @@ image:
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
   tag: "v1.0.6-98b1388"
-  os: "linux"
-  arch: "amd64"
+  arch: "linux-amd64"
 secret:
   name: "kbot"
   env: "TELE_TOKEN"
