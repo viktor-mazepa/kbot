@@ -1,5 +1,5 @@
 APP=$(shell basename -s .git $(shell git remote get-url origin))
-REGISTRY=europe-central2-docker.pkg.dev/devops2023-405122/kbot-repo
+REGISTRY?=europe-central2-docker.pkg.dev/devops2023-405122/kbot-repo
 VERSION=${shell git describe --tags --abbrev=0}-${shell git rev-parse --short HEAD}
 TARGETOS=linux
 TARGETARCH=amd64
