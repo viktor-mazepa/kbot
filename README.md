@@ -1,6 +1,31 @@
 # <a href="https://t.me/viktormazepa_bot">Telegram kBot</a>
 ## Link - <a href="https://t.me/viktormazepa_bot">https://t.me/viktormazepa_bot</a>
-## How to install and run
+## CI/CD
+### Is configured via GitHub WorkFlow and contains next steps:
+
+* CI :
+  + Action CheckOut
+  + Run Tests
+  + Login to Google Artifactory Repository 
+  + Build and Push docker image to Google Artifactory Repository
+  + Clean
+* CD:
+  + Save tag and revision to $GITHUB_ENV
+  + Update image.tag into values.yaml 
+  + Commit changes and push
+
+### Example of GitHub WorkFlow
+![img.png](img/img.png)
+
+### Example of ArgoCD deployment 
+![img_1.png](img/img_1.png)
+
+## How to install and run latest release via HELM
+```
+helm install kbot-0.1.0 https://github.com/viktor-mazepa/kbot/archive/refs/tags/v1.0.6.tar.gz 
+```
+
+## How to install and run locally
 Install Go on your computer https://go.dev/doc/install 
 
 Clone git repository:
@@ -35,4 +60,3 @@ If you send ```/start version```, bot will send you current version of applicati
 You also can ask bot ```/start how are you?```
 
 You can try to send some photos or voice message and you will see what happens
-
