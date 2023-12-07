@@ -14,6 +14,11 @@
   + Update image.tag into values.yaml 
   + Commit changes and push
 
+### Also, CI/CD was configured on local Jenkins:
+![img.png](img/img2.png)
+![img.png](img/img3.png)
+
+
 ### Example of GitHub WorkFlow
 ![img.png](img/img.png)
 
