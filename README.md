@@ -64,4 +64,4 @@ If you send ```/start version```, bot will send you current version of applicati
 
 You also can ask bot ```/start how are you?```
 
-You can try to send some photos or voice message and you will see what happens
+You can try to send some photos or voice message and you will see what happens.
