@@ -2,7 +2,7 @@ module "flux_bootstrap" {
   source            = "github.com/den-vasyliev/tf-fluxcd-flux-bootstrap"
   github_repository = "${var.GITHUB_OWNER}/${var.FLUX_GITHUB_REPO}"
   private_key       = module.tls_private_key.private_key_pem
-  config_path       = module.kind_cluster.kubeconfig
+  config_path       = module.gke_cluster.kubeconfig
   github_token      = var.GITHUB_TOKEN
 }
 
@@ -15,8 +15,18 @@ module "github_repository" {
   public_key_openssh_title = "flux"
 }
 
-module "kind_cluster" {
-  source = "github.com/den-vasyliev/tf-kind-cluster"
+module "gke_cluster" {
+  source         = "github.com/viktor-mazepa/tf-google-gke-cluster"
+  GOOGLE_REGION  = var.GOOGLE_REGION
+  GOOGLE_PROJECT = var.GOOGLE_PROJECT
+  GKE_NUM_NODES  = 1
+}
+
+terraform {
+  backend "gcs" {
+    bucket = "terraform_demo_bucket"
+    prefix = "terraform/state"
+  }
 }
 
 module "tls_private_key" {

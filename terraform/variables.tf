@@ -11,7 +11,7 @@ variable "GOOGLE_REGION" {
 
 variable "GKE_NUM_NODES" {
   type        = number
-  default     = 2
+  default     = 1
   description = "GKE nodes number"
 }
 
@@ -31,6 +31,12 @@ variable "GITHUB_OWNER" {
   type        = string
   default     = "viktor-mazepa"
   description = "GitHub user"
+}
+
+variable "GKE_MACHINE_TYPE" {
+  type        = string
+  default     = "g1-small"
+  description = "Machine type"
 }
 
 variable "FLUX_GITHUB_REPO" {
