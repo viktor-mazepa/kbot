@@ -35,7 +35,7 @@ variable "GITHUB_OWNER" {
 
 variable "FLUX_GITHUB_REPO" {
   type        = string
-  default     = "kbot"
+  default     = "kbot-flux-config"
   description = "The name of repository to store Flux manifest"
 }
 variable "GITHUB_TOKEN" {
