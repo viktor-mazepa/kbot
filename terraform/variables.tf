@@ -17,13 +17,13 @@ variable "GKE_NUM_NODES" {
 
 variable "GKE_CLUSTER_NAME" {
   type        = string
-  default     = "main"
+  default     = "kbot-cluster"
   description = "GKE cluster name"
 }
 
 variable "GKE_POOL_NAME" {
   type        = string
-  default     = "main"
+  default     = "kbot-pool"
   description = "GKE pool name"
 }
 

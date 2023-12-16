@@ -24,7 +24,7 @@ module "gke_cluster" {
 
 terraform {
   backend "gcs" {
-    bucket = "terraform_demo_bucket"
+    bucket = "kbot_bucket"
     prefix = "terraform/state"
   }
 }
