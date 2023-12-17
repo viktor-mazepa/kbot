@@ -35,7 +35,7 @@ variable "GITHUB_OWNER" {
 
 variable "GKE_MACHINE_TYPE" {
   type        = string
-  default     = "g1-small"
+  default     = "n1-standard-4"
   description = "Machine type"
 }
 
