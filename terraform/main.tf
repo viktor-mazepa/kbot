@@ -13,6 +13,7 @@ provider "flux" {
 
 resource "flux_bootstrap_git" "this" {
   path = "./clusters"
+  depends_on = [ module.gke_cluster ]
 }
 
 module "github_repository" {
