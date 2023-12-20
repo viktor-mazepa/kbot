@@ -44,7 +44,7 @@ func gitConfig(key string) string {
 }
 
 func installGitleaksForNix(downloadURL string) string {
-	if isCommandAvailable("gitleaks") {
+	if isCommandAvailableNix("gitleaks") {
 		return "gitleaks"
 	}
 
@@ -82,7 +82,7 @@ func installGitleaksForWindows(downloadURL string) string {
 	return fullPathToGitLeaks
 }
 
-func isCommandAvailable(cmd string) bool {
+func isCommandAvailableNix(cmd string) bool {
 	_, err := exec.LookPath(cmd)
 	return err == nil
 }
