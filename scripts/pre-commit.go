@@ -90,7 +90,7 @@ func isCommandAvailableNix(cmd string) bool {
 func runGitleaks(pathToGitleaks string) {
 	currentDir, err := os.Getwd()
 	if err != nil {
-		log.Fatal("Error duting current directory difinition:", err)
+		log.Fatal("Error during current directory definition:", err)
 	}
 	cmd := exec.Command(pathToGitleaks, "detect", fmt.Sprintf("-s=%s", currentDir), "--verbose")
 	cmd.Stderr = os.Stderr
