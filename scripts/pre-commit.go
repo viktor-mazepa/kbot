@@ -10,25 +10,28 @@ import (
 )
 
 var pathToGitLeaksWin = "C:\\gitleaks"
+var urlForWin = "https://github.com/gitleaks/gitleaks/releases/download/v8.18.1/gitleaks_8.18.1_windows_x64.zip"
+var urlForLinux = "https://github.com/gitleaks/gitleaks/releases/download/v8.18.1/gitleaks_8.18.1_linux_x64.tar.gz"
+var urlForMac = "https://github.com/gitleaks/gitleaks/releases/download/v8.18.1/gitleaks_8.18.1_darwin_x64.tar.gz"
 
 func main() {
 	os := runtime.GOOS
 	gitLeaskEnabled := gitConfig("gitleaks.enable")
 	if gitLeaskEnabled == "false" || gitLeaskEnabled == "" {
+		log.Println("gitleaks.enable=false -- skip validation")
 		return
 	}
 	fullPathToGitleaks := ""
 	if strings.Contains(strings.ToLower(os), "windows") {
 		log.Printf("Operation system defined as: Windows\n")
-		fullPathToGitleaks = installGitleaksForWindows()
+		fullPathToGitleaks = installGitleaksForWindows(urlForWin)
+	} else if strings.Contains(strings.ToLower(os), "linux") {
+		log.Printf("Operation system defined as: Linux\n")
+		fullPathToGitleaks = installGitleaksForNix(urlForLinux)
+	} else if strings.Contains(strings.ToLower(os), "darwin") {
+		log.Printf("Operation system defined as: MacOS\n")
+		fullPathToGitleaks = installGitleaksForNix(urlForMac)
 	}
-	if strings.Contains(strings.ToLower(os), "linux") {
-		installGitleaksForLinux()
-	}
-	if strings.Contains(strings.ToLower(os), "darwin") {
-		installGitleaksForMac()
-	}
-
 	runGitleaks(fullPathToGitleaks)
 }
 func gitConfig(key string) string {
@@ -40,22 +43,31 @@ func gitConfig(key string) string {
 	return strings.TrimSpace(string(out))
 }
 
-func installGitleaksForMac() {
-	panic("unimplemented")
+func installGitleaksForNix(downloadURL string) string {
+	if isCommandAvailable("gitleaks") {
+		return "gitleaks"
+	}
+
+	extractCmd := "tar xvz -C ./gitleaks && sudo mv gitleaks/* /usr/local/bin/ && rm -d ./gitleaks"
+	cmd := exec.Command("sh", "-c", fmt.Sprintf("mkdir -p gitleaks | curl -sSfL %s | %s", downloadURL, extractCmd))
+	cmd.Stderr = os.Stderr
+	cmd.Stdout = os.Stdout
+
+	err := cmd.Run()
+	if err != nil {
+		log.Fatal("Error during gitleaks installation:", err)
+	}
+	log.Println("Gitleaks installed")
+	return "gitleaks"
 }
 
-func installGitleaksForLinux() {
-	panic("unimplemented")
-}
-
-func installGitleaksForWindows() string {
+func installGitleaksForWindows(downloadURL string) string {
 	fullPathToGitLeaks := fmt.Sprintf("%s\\gitleaks.exe", pathToGitLeaksWin)
 	_, err := os.Stat(fmt.Sprintf("%s\\gitleaks.exe", pathToGitLeaksWin))
 	if err == nil {
 		log.Printf("Found gitleaks: %s\n", fullPathToGitLeaks)
 		return fullPathToGitLeaks
 	}
-	downloadURL := "https://github.com/gitleaks/gitleaks/releases/download/v8.18.1/gitleaks_8.18.1_windows_x64.zip"
 	extractCmd := fmt.Sprintf("Expand-Archive %s\\gitleaks.zip -DestinationPath %s", pathToGitLeaksWin, pathToGitLeaksWin)
 	mkdir := fmt.Sprintf("mkdir %s", pathToGitLeaksWin)
 	cmd := exec.Command("powershell", "-Command", fmt.Sprintf("%s; Invoke-WebRequest -Uri %s -OutFile %s\\gitleaks.zip ; %s", mkdir, downloadURL, pathToGitLeaksWin, extractCmd))
@@ -70,6 +82,11 @@ func installGitleaksForWindows() string {
 	return fullPathToGitLeaks
 }
 
+func isCommandAvailable(cmd string) bool {
+	_, err := exec.LookPath(cmd)
+	return err == nil
+}
+
 func runGitleaks(pathToGitleaks string) {
 	currentDir, err := os.Getwd()
 	if err != nil {
@@ -81,7 +98,6 @@ func runGitleaks(pathToGitleaks string) {
 
 	err = cmd.Run()
 	if err != nil {
-		log.Println("Gitleaks return validation error")
-		os.Exit(1)
+		log.Fatal("Error during gitleaks execution:", err)
 	}
 }
