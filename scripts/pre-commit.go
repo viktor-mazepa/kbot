@@ -19,8 +19,7 @@ func main() {
 	os := runtime.GOOS
 	gitLeaskEnabled := gitConfig("gitleaks.enable")
 	if gitLeaskEnabled == "false" || gitLeaskEnabled == "" {
-		log.Println("gitleaks.enable=false -- skip validation")
-		return
+		enableGitLeaks()
 	}
 	fullPathToGitleaks := ""
 	if strings.Contains(strings.ToLower(os), "windows") {
@@ -81,6 +80,11 @@ func installGitleaksForWindows(downloadURL string) string {
 	}
 	log.Printf("Gitleaks installed: %s\n", fullPathToGitLeaks)
 	return fullPathToGitLeaks
+}
+
+func enableGitLeaks() {
+	cmd := exec.Command("git", "config", "gitleaks.enable", "true")
+	cmd.Output()
 }
 
 func isCommandAvailableNix(cmd string) bool {
