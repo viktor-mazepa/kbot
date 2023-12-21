@@ -5,6 +5,7 @@ import (
 	"log"
 	"os"
 	"os/exec"
+	"path/filepath"
 	"runtime"
 	"strings"
 )
@@ -91,8 +92,12 @@ func runGitleaks(pathToGitleaks string) {
 	currentDir, err := os.Getwd()
 	if err != nil {
 		log.Fatal("Error during current directory definition:", err)
+		log.Println(currentDir)
+
 	}
-	cmd := exec.Command(pathToGitleaks, "detect", fmt.Sprintf("-s=%s", currentDir), "--verbose")
+	currentDir = filepath.Dir(currentDir)
+	cmd := exec.Command(pathToGitleaks, "protect", "--staged", fmt.Sprintf("-s=%s", currentDir), "--verbose")
+	log.Println("cmd = ", cmd)
 	cmd.Stderr = os.Stderr
 	cmd.Stdout = os.Stdout
 
