@@ -7,7 +7,7 @@ image:
   repository: "ghcr.io/viktor-mazepa"
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
-  tag: "v1.0.6-63347ae"
+  tag: "v1.0.6-66be700"
   os: "linux"
   arch: "amd64"
 secret:
